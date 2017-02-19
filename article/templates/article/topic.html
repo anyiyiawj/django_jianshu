@@ -1,0 +1,9 @@
+{% extends 'base2.html' %}
+{% block title %}{{ topic.name }}{% endblock %}
+
+{% block content %}
+<h1>{{topic.name}}</h1>
+{% for article in articles %}
+    {% include 'article/larticle.html' with article=article %}
+{% endfor %}
+{% endblock %}

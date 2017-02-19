@@ -1,0 +1,17 @@
+<div class="comment">
+    <div class="comment-text">
+        <h5>
+          <a href="{% url 'profile' comment.user_id %}">{{ comment.user.username }}</a>
+          <small class="pull-right">{{ comment.date|date:"Y-m-d H:i:s"}}</small>
+        </h5>
+        <h4>{{ comment.comment }}</h4>
+        {% ifequal comment.user user %}
+            <span class="text-muted"><a href="{% url 'dele_com' comment.id}">删除</a></span>
+        {% else %}
+            {% ifequal article.get_author user %}
+                <span class="text-muted"><a href="{% url 'dele_com' comment.id}">删除</a></span>
+            {% endifequal %}
+        {% endifequal %}
+        <HR style="FILTER: progid:DXImageTransform.Microsoft.Glow(color=#987cb9,strength=10)" width="100%" color=#987cb9 SIZE=1>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+{% load humanize %}
+
+{% for notification in notifications %}
+  <div class="clearfix">
+      <!--<img src="{{ notification.from_user.profile.get_picture }}" class="user-picture">-->
+      <p>{{ notification|safe }}</p>
+      <p><small>{{ notification.date|naturaltime }}</small></p><hr/>
+  </div>
+{% empty %}
+  <span style="text-align: center">你没有未读消息</span><hr />
+{% endfor %}
+  <span style="text-align: center"><a href="{% url 'notifications' %}">查看所有</a></span>
+

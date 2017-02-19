@@ -1,0 +1,24 @@
+{% extends 'base2.html' %}
+{% block title %}{{ viewuser.username }}的主页{% endblock %}
+
+
+{% block content %}
+<h1>{{ viewuser.username }}</h1>
+<h3>{{ viewuser.email }}</h3>
+性别：{{ profile.get_gender_display }}<br />
+地址：{{ profile.location }}<br />
+签名：{{ profile.signature}}<br />
+{% if profile.picture %}
+<img src="{{ profile.picture.url }}" />
+{% endif %}
+
+文集：<br />
+{%for notes in viewuser.notes_set.all %}
+<a href="{% url 'notes' notes.id %}">{{notes.caption}}</a><br />
+{% endfor %}<br />
+
+文章：<br />
+{% for article in profile.get_article %}
+    {% include 'article/larticle.html' with article=article %}
+{% endfor %}<br />
+{% endblock %}

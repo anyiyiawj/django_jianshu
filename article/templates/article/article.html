@@ -1,0 +1,40 @@
+{% extends 'base2.html' %}
+{% load staticfiles %}
+
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-7 col-md-offset-1">
+    <h2>{{ article.title }}</h2>
+    {% ifequal article.get_author user %}
+        <span class="text-muted">{{article.get_status_display}}</span>
+    {% else %}
+        <span class="text-muted"><a href="{% url 'profile' article.get_author.id %}">作者：{{article.get_author}}</a></span>
+    {% endifequal %}
+        <br/>
+        <span class="glyphicon glyphicon-book"></span>
+        <span class="text-muted">来自文集：<a href="{% url 'notes' article.notes.id %}">{{ article.notes.caption }}</a></span>
+        <span class="glyphicon glyphicon-calendar"></span>
+        <span class="text-muted">{{ article.create_date|date:"Y-m-d H:i:s"}}</span><br/><br/>
+
+        <div class="content">
+        <h4>{{ article.content }}</h4>
+        </div><br/>
+
+        <div>
+        {% if article.topic %}
+            {% for topic in article.topic.all %}
+                 <button type="button" class="btn btn-xs btn btn-info"><a href="{% url 'topic' topic.id %}">{{ topic.name }}</a></button>
+            {% endfor %}
+        {% endif %}
+         </div><br/>
+
+{% include 'article/activities.html'%}
+{% include 'article/comment.html' %}
+
+{% endblock %}
+
+
+        {% block scripts %}
+<script src="{% static 'js/article.js' %}"></script>
+{% endblock %}

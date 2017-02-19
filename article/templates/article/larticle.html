@@ -1,0 +1,23 @@
+{% load staticfiles %}
+{% load humanize %}
+
+<div id="article" >
+    <span class="text-muted"><a href="{% url 'profile' article.get_author.id %}">{{article.get_author}}</a>
+        来自文集：<a href="{% url 'notes' article.notes.id %}">{{article.notes.caption}}</a>
+        {{ article.create_date|naturaltime }}</span><br/>
+
+    <h4><a href="{% url 'article' article.id %}">{{article.title}}</a><br/></h4>
+
+    {{article.abstract}}<br /><br />
+
+    {% for topic in article.topic.all %}
+        <button type="button" class="btn btn-xs btn btn-info"><a href="{% url 'topic' topic.id %}">{{ topic.name }}</a></button>
+    {% endfor %}
+    <span class="glyphicon glyphicon-heart"></span>
+    <span class="text-muted">{{article.get_likes.count}}</span>
+    <span class="glyphicon glyphicon-comment"></span>
+    <span class="text-muted">{{article.get_comments.count}}</span>
+
+    <HR style="FILTER: progid:DXImageTransform.Microsoft.Glow(color=#987cb9,strength=10)" width="100%" color=#987cb9 SIZE=1>
+</div>
+

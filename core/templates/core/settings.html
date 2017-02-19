@@ -1,0 +1,36 @@
+{% extends 'base2.html' %}
+{% block title %}个人设置{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>账号设置</h1>
+</div>
+<div class="row" style="margin-top:2em">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-9">
+      <h3 style="margin-top: 0">编辑个人信息</h3>
+      <form role="form" class="form-horizontal" method="post" action="">
+          {% csrf_token %}
+          {% for field in form.visible_fields %}
+              <div class="form-group{% if field.errors %} has-error{% endif %}">
+                  <label for="{{ field.label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                      <div class="col-sm-10">
+                          {{ field }}
+                          {% if field.help_text %}
+                          <span class="help-block">{{ field.help_text }}</span>
+                          {% endif %}
+                          {% for error in field.errors %}
+                              <label class="control-label">{{ error }}</label>
+                          {% endfor %}
+                      </div>
+              </div>
+          {% endfor %}
+          <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-primary">保存</button>
+              </div>
+          </div>
+      </form>
+  </div>
+</div>
+{% endblock %}

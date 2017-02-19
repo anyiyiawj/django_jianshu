@@ -1,0 +1,19 @@
+{% extends 'base2.html' %}
+{% load staticfiles %}
+{% block title %}写文章{% endblock %}
+{% block content %}
+<h1>写文章</h1>
+<spam>{{message}}</spam>
+<form action="" method="post">
+    文集名称：{{notesform.caption}}<br />
+    文章名称：{{form.title}}<br />
+    文章内容：{{form.content}}<br />
+    标签页：{{topicform.name}}<br />
+    {{topicform.name.help_text}}
+    <input type="submit" name="flag" value="发布"/>
+    <input type="submit" name="flag" value="仅自己能看"/>
+    <input type="submit" name="flag" value="存入草稿"/>
+    <input type="submit" name="flag" value="预览"/>
+    <input type="submit" name="flag" value="取消"/>
+</form>
+{% endblock %}

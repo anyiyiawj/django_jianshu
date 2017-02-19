@@ -1,0 +1,20 @@
+<div article-id="{{article.id}}" >
+    {% if user in article.get_likers %}
+         <a href="#" class="like unlike">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+            <span class="text">撤销</span>
+             (<span  class="like-count">{{article.calculate_likes}}</span>)
+         </a>
+    {% else %}
+         <a href="#" class="like">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+            <span  class="text">赞</span>
+             (<span  class="like-count">{{article.calculate_likes}}</span>)
+         </a>
+    {% endif %}
+
+    {% ifequal article.get_author user %}
+        <span class="text"><a href="{% url 'edit' article.id %}">修改</a></span>
+        <span class="text"><a href="{% url 'art_delete' article.id %}">删除</a></span>
+    {% endifequal %}
+</div>

@@ -1,0 +1,10 @@
+{% extends 'base2.html' %}
+{% block title %}个人通知{% endblock %}
+
+{% block content %}
+<h1>个人通知</h1>
+{% for noti in  notifications%}
+    <small>{{ noti.date }}</small>
+    {{noti|safe}}
+{% endfor %}
+{% endblock %}

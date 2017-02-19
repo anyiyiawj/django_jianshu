@@ -1,0 +1,13 @@
+body{padding:0px;margin:0px;}
+#header{position:fixed;background-color:#ffcc33;width:100%;height:45px;}
+#header a {color:white;font-family:Microsoft YaHei}
+#headerwords1 {position:absolute;left:630px;}
+.head1 {float:left;width:60px;height:45px;}
+.head1 a {font-size:20px;text-decoration:none;padding-left:10px;padding-top:20px;}
+#head2 {position:absolute;left:950px;list-style-type:none;padding-top:45px;}
+#head2 a{font-size:20px;display:block;background-color:blue;padding:10px 20px 10px 20px;}
+        
+#content{padding-top:60px;padding-left:200px;width:900px;float:left}
+#side{padding-top:60px;float:left;padding-left:50px;}
+.xuanzhong{background-color:blue;}
+.hide{display:none;}
