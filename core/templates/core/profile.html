@@ -8,8 +8,8 @@
 性别：{{ profile.get_gender_display }}<br />
 地址：{{ profile.location }}<br />
 签名：{{ profile.signature}}<br />
-{% if profile.picture %}
-<img src="{{ profile.picture.url }}" />
+{% if profile.get_picture%}
+<img src="{{ profile.get_picture }}" />
 {% endif %}
 
 文集：<br />

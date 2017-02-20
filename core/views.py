@@ -187,5 +187,5 @@ def save_uploaded_picture(request):#保存图片
         cropped_im.save(filename)
         os.remove(tmp_filename)
     except Exception:
-        pass
+        print('hello')
     return redirect('/settings/picture/')

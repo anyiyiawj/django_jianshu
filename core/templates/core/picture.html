@@ -1,5 +1,8 @@
 {% extends 'base2.html' %}
 {% load static %}
+{% block styles %}
+<link href="{% static 'css/jquery.Jcrop.min.css' %}" rel="stylesheet">
+{% endblock %}
 {% block title %}头像上传{% endblock %}
 
 {% block content %}
@@ -18,10 +21,9 @@
         {% endfor %}
       {% endif %}
       <h3 style="margin-top: 0">图片设置</h3>
-      <img src="{{ user.profile.picture.url }}" style="width: 150px; border-radius: 5px; margin-bottom: 1em;">
+      <img src="{{ user.profile.get_picture }}" style="width: 150px; border-radius: 5px; margin-bottom: 1em;">
       <form enctype="multipart/form-data" method="post" action="{% url 'upload_picture' %}" id="picture-upload-form">
-        <input type="file" name="picture" style="display: none">
-        <button type="submit" class="btn btn-default" id="btn-upload-picture">更换头像</button>
+        <input type="file" name="picture">
       </form>
 
       {% if uploaded_picture %}
@@ -42,13 +44,6 @@
                     <input type="hidden" id="w" name="w" />
                     <input type="hidden" id="h" name="h" />
                   </div>
-                  <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
-                  <script type="text/javascript">
-                    $(function () {
-                      $("#modal-upload-picture").modal();
-                      window.history.pushState("", "", "/settings/picture/");
-                    });
-                  </script>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -61,4 +56,15 @@
       {% endif %}
     </div>
   </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/jquery.Jcrop.min.js' %}"></script>
+<script src="{% static 'js/picture.js' %}"></script>
+<script type="text/javascript">
+  $(function () {
+    $("#modal-upload-picture").modal();
+    window.history.pushState("", "", "/settings/picture/");
+  });
+</script>
 {% endblock %}

@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from activities.models import Notification
+from zt import settings
+
+import hashlib
+import urllib
+import os
 
 class Profile(models.Model):
     user=models.OneToOneField(User)
@@ -10,13 +15,22 @@ class Profile(models.Model):
         ('f', 'female'),
     )
     gender= models.CharField(max_length=1,choices=STATUS_CHOICES)
-    picture = models.ImageField(upload_to='profile_images',null=True,blank=True)
     signature=models.CharField(max_length=50,null=True,blank=True)
     views = models.PositiveIntegerField(default=0)
     location = models.CharField(max_length=50,null=True, blank=True)
     def __str__(self):
         return self.user.username
-        
+
+    def get_picture(self):#个人图片地址
+        no_picture = 'http://127.0.0.1:8000/static/img/user.png'
+        try:
+            filename = settings.MEDIA_ROOT + '/profile_pictures/' + self.user.username + '.jpg'
+            picture_url = settings.MEDIA_URL + 'profile_pictures/' + self.user.username + '.jpg'
+            if os.path.isfile(filename):
+                return picture_url
+        except Exception:
+            return no_picture
+
     def get_article(self):#下属文章
         article=[]
         for notes in self.user.notes_set.all():
