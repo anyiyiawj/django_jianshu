@@ -45,9 +45,3 @@ class ChangePasswordForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['id', 'old_password', 'new_password', 'confirm_password']
-
-class ProfilePicForm(forms.ModelForm):
-    picture = forms.ImageField(required=False)
-    class Meta:
-        model = Profile
-        fields = ['picture', ]

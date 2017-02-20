@@ -28,9 +28,8 @@ urlpatterns = [
     url(r'^article/',include('article.urls')),
     url(r'^setting/$',core_views.setting,name='setting'),
     url(r'^setting/password/$',core_views.password,name='setpw'),
-    url(r'^setting/picture/$',core_views.upload_pic,name='setpic'),
-    url(r'^settings/picture/$', core_views.picture, name='picture'),#头像设置
-    url(r'^settings/upload_picture/$', core_views.upload_picture,name='upload_picture'),#上传头像
+    url(r'^setting/picture/$', core_views.picture, name='picture'),#头像设置
+    url(r'^setting/upload_picture/$', core_views.upload_picture,name='upload_picture'),#上传头像
     url(r'^settings/save_uploaded_picture/$', core_views.save_uploaded_picture,name='save_uploaded_picture'),#保存头像
     url(r'^notifications/$', acti_views.notifications,name='notifications'),
     url(r'^notifications/last/$',acti_views.last_notifications,name='last_notification'),

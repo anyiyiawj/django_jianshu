@@ -7,10 +7,12 @@
 
 {% block content %}
   <div class="page-header">
-    <h1>图片设置</h1>
+    <h1>更改头像</h1>
   </div>
   <div class="row" style="margin-top: 2em">
-
+    <div class="col-md-3">
+      {% include 'core/setting_menu.html' with active='picture' %}
+    </div>
     <div class="col-md-9">
       {% if messages %}
         {% for message in messages %}
@@ -23,7 +25,8 @@
       <h3 style="margin-top: 0">图片设置</h3>
       <img src="{{ user.profile.get_picture }}" style="width: 150px; border-radius: 5px; margin-bottom: 1em;">
       <form enctype="multipart/form-data" method="post" action="{% url 'upload_picture' %}" id="picture-upload-form">
-        <input type="file" name="picture">
+        <input type="file" name="picture" style="display: none">
+        <button type="button" class="btn btn-default" id="btn-upload-picture">更新图片</button><!--此按钮和文章的按钮一起，在picture.js中-->
       </form>
 
       {% if uploaded_picture %}
@@ -64,7 +67,7 @@
 <script type="text/javascript">
   $(function () {
     $("#modal-upload-picture").modal();
-    window.history.pushState("", "", "/settings/picture/");
+    window.history.pushState("", "", "/setting/picture/");
   });
 </script>
 {% endblock %}

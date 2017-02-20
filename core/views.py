@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserForm,ProfileForm,ChangePasswordForm,ProfilePicForm
+from .forms import UserForm,ProfileForm,ChangePasswordForm
 from .models import Profile
 from article.models import Article
 from zt import settings
@@ -97,19 +97,6 @@ def setting(request):
     return render_to_response( 'core/settings.html', {'user':request.user,'form': form})
 
 @login_required
-def upload_pic(request):
-    if request.method=="POST":
-        profile_form=ProfilePicForm(request.POST)
-        if profile_form.is_valid():
-            if 'picture' in request.FILES:
-                request.user.profile.picture=request.FILES['picture']
-            request.user.profile.save()
-    else:
-        profile_form=ProfilePicForm()
-    return render_to_response('core/picset.html',{'user':request.user,'profile_form':profile_form})
-
-
-@login_required
 def password(request):
     user = request.user
     if request.method == 'POST':
@@ -167,10 +154,10 @@ def upload_picture(request):#上传图片
             new_size = new_width, new_height
             im.thumbnail(new_size, Image.ANTIALIAS)
             im.save(filename)
-        return redirect('/settings/picture/?upload_picture=uploaded')
+        return redirect('/setting/picture/?upload_picture=uploaded')
     except Exception as e:
-        print(e)
-        return redirect('/settings/picture/')
+        #设置message
+        return redirect('/setting/picture/')
 
 @login_required
 def save_uploaded_picture(request):#保存图片
@@ -182,10 +169,10 @@ def save_uploaded_picture(request):#保存图片
         tmp_filename = settings.MEDIA_ROOT + '/profile_pictures/' + request.user.username + '_tmp.jpg'
         filename = settings.MEDIA_ROOT + '/profile_pictures/' + request.user.username + '.jpg'
         im = Image.open(tmp_filename)
-        cropped_im = im.crop((x, y, w+x, h+y))
+        cropped_im = im.crop((x, y, w+x, h+y))#划分范围
         cropped_im.thumbnail((200, 200), Image.ANTIALIAS)
         cropped_im.save(filename)
         os.remove(tmp_filename)
     except Exception:
         print('hello')
-    return redirect('/settings/picture/')
+    return redirect('/setting/picture/')
