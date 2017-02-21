@@ -9,8 +9,20 @@
 地址：{{ profile.location }}<br />
 签名：{{ profile.signature}}<br />
 {% if profile.get_picture%}
-<img src="{{ profile.get_picture }}" />
+<img src="{{ profile.get_picture }}" /><br />
 {% endif %}
+{% ifnotequal viewuser user %}
+    {% if not followed %}
+    <a href="{% url 'follow' viewuser.id %}" class="btn btn-primary">关注</a>
+    {% else %}
+    <a href="{% url 'unfollow' viewuser.id %}" class="btn btn-default">已关注</a>
+    {% endif %}
+
+
+
+    {% if folloing %}
+    <span class="label label-default">他关注你</span>{% endif %}
+{% endifnotequal %}
 
 文集：<br />
 {%for notes in viewuser.notes_set.all %}

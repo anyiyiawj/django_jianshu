@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 
 from .forms import UserForm,ProfileForm,ChangePasswordForm
-from .models import Profile
+from .models import Profile,Follow
 from article.models import Article
 from zt import settings
 
@@ -50,15 +50,16 @@ def index(request):#登录页面
                 message='未知错误'
         user_form=UserForm()
         return render_to_response('core/lr.html',{'user_form':user_form,'message':message})
-    articles=Article.objects.filter(status='p')
-    return render_to_response('core/index.html',{'user':request.user,'articles':articles})#主页面
+    article=[]
+    for follow in Follow.objects.filter(ing_profile=request.user.profile):
+        article.extend(follow.ed_profile.get_article())
+    return render_to_response('core/index.html',{'user':request.user,'articles':article})#主页面
 
 
 @login_required
 def topics(request):
     articles = request.user.profile.get_article()
     topics =[]
-
     for article in articles:
         for topic in article.topic.all():
             if topic not in topics:
@@ -67,8 +68,27 @@ def topics(request):
 
 @login_required
 def profile(request,user_id):
-    viewuser=User.objects.get(id=user_id)    
-    return render_to_response('core/profile.html',{'user':request.user,'viewuser':viewuser,'profile':viewuser.profile})
+    viewuser=User.objects.get(id=user_id)
+    followed=viewuser.profile.is_followed(request.user)#我关注了这个人
+    following = viewuser.profile.is_following(request.user)#他关注了我
+    return render_to_response('core/profile.html',{'user':request.user,'viewuser':viewuser,'profile':viewuser.profile,'followed':followed,'following':following})
+
+@login_required
+def follow(request,user_id):
+    user=get_object_or_404(User,pk=user_id)
+    if user.profile.is_followed(request.user):#我关注他
+        return redirect('/people/%d'% user.id)#message
+    request.user.profile.follow(user)
+    return redirect('/people/%d' %user.id)
+
+@login_required#不知道哪里错误，这个函数没有反应
+def unfollow(request,user_id):
+    print('hello')
+    user = get_object_or_404(User, pk=user_id)
+    if not user.profile.is_followed(request.user):  # 我关注他
+        return redirect('/people/%d' % user.id)  # message
+    request.user.profile.unfollow(user)
+    return redirect('/people/%d' % user.id)
 
 
 @login_required
@@ -176,3 +196,17 @@ def save_uploaded_picture(request):#保存图片
     except Exception:
         print('hello')
     return redirect('/setting/picture/')
+
+
+@login_required
+def follower(request,user_id):
+    user = get_object_or_404(User, pk=user_id)
+    follow=user.profile.get_follower()
+    title="关注ta的人"
+    return render_to_response('core/follow.html',{'follows':follow,'title':title,'user':request.user})
+@login_required
+def following(request,user_id):
+    user = get_object_or_404(User,pk=user_id)
+    follow = user.profile.get_following()
+    title = "ta关注的人"
+    return render_to_response('core/follow.html', {'follows': follow,'title':title, 'user': request.user})

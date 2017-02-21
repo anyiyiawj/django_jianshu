@@ -1,0 +1,10 @@
+{% extends 'base2.html' %}
+{% block title %}{{title}}{% endblock %}
+
+{%block content%}
+{% for follow in follows %}
+    {% ifequal title "关注ta的人"%}
+    <a href="{% url 'profile' follow.ing_profile.id %}">{{follow.ing_profile}}</a><br />
+    {% else %}
+    <a href="{% url 'profile' follow.ed_profile.id %}">{{follow.ed_profile}}</a><br />
+{% endblock %}

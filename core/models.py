@@ -49,3 +49,34 @@ class Profile(models.Model):
     def notify_commented(self, feed):
         if self.user != feed.user:
             Notification(notification_type=Notification.COMMENTED,from_user=self.user, to_user=feed.user,feed=feed).save()
+
+    def follow(self,user):
+        Follow.objects.create(ed_profile=user.profile,ing_profile=self)
+
+    def unfollow(self,user):
+        Follow.objects.get(ed_profile=user.profile,ing_profile=self).delete()
+
+    def is_following(self,user):#是否关注他
+        if Follow.objects.filter(ed_profile=user.profile, ing_profile=self):
+            return True
+        else:
+            return False
+
+    def is_followed(self,user):#是否被关注
+        if Follow.objects.filter(ed_profile=self, ing_profile=user.profile):
+            return True
+        else:
+            return False
+
+    def get_follower(self):#得到关注者
+        return Follow.objects.filter(ed_profile=self).all()
+
+    def get_following(self):#得到我关注的人
+        return Follow.objects.filter(ing_profile=self).all()
+
+
+
+class Follow(models.Model):
+    ed_profile = models.ForeignKey(Profile, related_name='+')  # 被关注者
+    ing_profile = models.ForeignKey(Profile, related_name='+')  # 关注者
+    time = models.DateTimeField(auto_now_add=True)
