@@ -2,18 +2,18 @@
 {% load staticfiles %}
 {% block title %}写文章{% endblock %}
 {% block content %}
+<div class="pull-right" style="padding:10px"><a href="{% url 'draft'%}" class="btn btn-primary" >草稿箱</a></div>
 <h1>写文章</h1>
 <spam>{{message}}</spam>
 <form action="" method="post">
     文集名称：{{notesform.caption}}<br />
     文章名称：{{form.title}}<br />
     文章内容：{{form.content}}<br />
-    标签页：{{topicform.name}}<br />
-    {{topicform.name.help_text}}
-    <input type="submit" name="flag" value="发布"/>
-    <input type="submit" name="flag" value="仅自己能看"/>
-    <input type="submit" name="flag" value="存入草稿"/>
-    <input type="submit" name="flag" value="预览"/>
-    <input type="submit" name="flag" value="取消"/>
+    标签页：{{topicform.name}}
+    {{topicform.name.help_text}}<br />
+    <input type="submit" name="flag" class="btn btn-danger" value="发布"/>
+    <input type="submit" name="flag" class="btn btn-success" value="仅自己能看"/>
+    <input type="submit" name="flag" class="btn btn-primary" value="存入草稿"/>
+    <input type="submit" name="flag" class="btn btn-warning" value="取消"/>
 </form>
 {% endblock %}

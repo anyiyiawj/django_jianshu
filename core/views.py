@@ -66,6 +66,7 @@ def topics(request):
                 topics.append(topic)
     return render_to_response('core/topics.html', {'user':request.user,"topics":topics})  # 主页面
 
+
 @login_required
 def profile(request,user_id):
     viewuser=User.objects.get(id=user_id)
@@ -86,9 +87,10 @@ def unfollow(request,user_id):
     print('hello')
     user = get_object_or_404(User, pk=user_id)
     if not user.profile.is_followed(request.user):  # 我关注他
-        return redirect('/people/%d' % user.id)  # message
+        pass
+        #return redirect('/people/%d' % user.id)  # message
     request.user.profile.unfollow(user)
-    return redirect('/people/%d' % user.id)
+    #return redirect('/people/%d' % user.id)
 
 
 @login_required
@@ -197,13 +199,13 @@ def save_uploaded_picture(request):#保存图片
         print('hello')
     return redirect('/setting/picture/')
 
-
 @login_required
 def follower(request,user_id):
     user = get_object_or_404(User, pk=user_id)
     follow=user.profile.get_follower()
     title="关注ta的人"
     return render_to_response('core/follow.html',{'follows':follow,'title':title,'user':request.user})
+
 @login_required
 def following(request,user_id):
     user = get_object_or_404(User,pk=user_id)

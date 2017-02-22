@@ -1,0 +1,32 @@
+{% extends 'base2.html'%}
+{% block title %}草稿箱{% endblock %}
+{% block content%}
+<h1>草稿箱</h1>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th>文集</th>
+        <th>题目</th>
+        <th>文章</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for article in draft %}
+        <tr>
+          <td >{{ article.notes.caption }}</td>
+          <td ><a href="{% url 'edit' article.pk %}">{{ article.title }}</a></td>
+          <td>
+            <a href="{% url 'edit' article.pk %}">{{article.get_abstract}}</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4" style="text-align: center">
+            草稿箱里没有文章
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+<div class="pull-right" style="padding:10px"><a href="{% url 'add'%}" class="btn btn-primary" >返回编辑编辑页面</a></div>
+{% endblock %}

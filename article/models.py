@@ -20,7 +20,7 @@ class Topic(models.Model):#标签
         
 class Article(models.Model):#文章
     STATUS_CHOICES=(
-        ('d','草稿箱'),
+        ('d','草稿'),
         ('p','已公共发布'),
         ('s','私人文章'),
     )
@@ -85,7 +85,8 @@ class Article(models.Model):#文章
                 name.append(topic.name)
             name = ' '.join(name)
         elif n == 1:
-            name = str(article.topic.all().name)
+            for topic in self.topic.all():
+                name = str(topic.name)
         else:
             name=''
         return name

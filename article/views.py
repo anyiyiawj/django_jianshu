@@ -48,6 +48,14 @@ def edit(request,article_id):
     topicform =TopicForm(initial={'name':article.get_topics()})
     return render_to_response("article/add.html", {'user':request.user,"notesform": notesform, "form": form, "topicform": topicform,'message':message})
 
+@login_required
+def draft(request):
+    draft=[]
+    for article in Article.objects.filter(status='d'):
+        if article.get_author()==request.user:
+            print(article)
+            draft.append(article)
+    return render_to_response('article/draft.html',{'user':request.user,'draft':draft})
         
 @login_required  
 def art_delete(request,article_id):
